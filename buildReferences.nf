@@ -275,7 +275,7 @@ def defReferencesFiles(genome) {
     return   [
     '1000G_phase1.indels.b37.vcf.gz',
     '1000G_phase3_20130502_SNP_maf0.3.loci.tar.bz2',
-    'GRCh37_Cosmic_v83.vcf.tar.bz2',
+    'COSMICv84.vcf',
     'dbsnp_138.b37.vcf.gz',
     'human_g1k_v37_decoy.fasta.gz',
     'Mills_and_1000G_gold_standard.indels.b37.vcf.gz',

@@ -581,7 +581,9 @@ process RunBamQC {
   bamqc \
   -bam ${bam} \
   -outdir ${idSample} \
-  -outformat HTML
+  -outformat HTML \
+  -nr 200000 \
+  -nt ${task.cpus}
   """
 }
 

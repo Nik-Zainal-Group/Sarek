@@ -163,7 +163,9 @@ process RunBamQC {
   bamqc \
   -bam ${bam} \
   -outdir ${idSample} \
-  -outformat HTML
+  -outformat HTML \
+  -nr 200000 \
+  -nt ${task.cpus}
   """
 }
 
@@ -325,7 +327,7 @@ process RunHaplotypecaller {
   when: 'haplotypecaller' in tools && !params.onlyQC
 
   script:
-  BQSR = (recalTable != null) ? "--BQSR $recalTable" : ''
+  BQSR = (recalTable != null) ? "--BQSR $recalTable" : ''   //doesn't function
   """
   java -Xmx${task.memory.toGiga()}g \
   -jar \$GATK_HOME/GenomeAnalysisTK.jar \
@@ -337,6 +339,7 @@ process RunHaplotypecaller {
   ${BQSR} \
   -I ${bam} \
   -L ${intervalBed} \
+  -maxAltAlleles 12 \
   --disable_auto_index_creation_and_locking_when_reading_rods \
   -o ${intervalBed.baseName}_${idSample}.g.vcf
   """
