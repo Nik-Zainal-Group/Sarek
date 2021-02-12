@@ -195,7 +195,7 @@ bamsTumor = Channel.create()
 recalibratedBam
   .choice(bamsTumor, bamsNormal) {it[1] == 0 ? 1 : 0}
 
-bamsNormal = bamsNormal.ifEmpty{exit 1, "No normal sample defined, check TSV file: ${tsvFile}"}
+//bamsNormal = bamsNormal.ifEmpty{exit 1, "No normal sample defined, check TSV file: ${tsvFile}"}
 bamsTumor = bamsTumor.ifEmpty{exit 1, "No tumor sample defined, check TSV file: ${tsvFile}"}
 
 // Ascat, Strelka Germline & Manta Germline SV
@@ -283,15 +283,15 @@ if (params.verbose) bedIntervals = bedIntervals.view {
 (bamsNormalTemp, bamsNormal, bedIntervals) = generateIntervalsForVC(bamsNormal, bedIntervals)
 (bamsTumorTemp, bamsTumor, bedIntervals) = generateIntervalsForVC(bamsTumor, bedIntervals)
 
-bamsAll = bamsNormal.combine(bamsTumor)
+bamsAll = bamsNormal.join(bamsTumor)
 
 // Since idPatientNormal and idPatientTumor are the same
 // It's removed from bamsAll Channel (same for genderNormal)
 // /!\ It is assumed that every sample are from the same patient
-bamsAll = bamsAll.map {
-  idPatientNormal, idSampleNormal, bamNormal, baiNormal, idPatientTumor, idSampleTumor, bamTumor, baiTumor ->
-  [idPatientNormal, idSampleNormal, bamNormal, baiNormal, idSampleTumor, bamTumor, baiTumor]
-}
+//bamsAll = bamsAll.map {
+//  idPatientNormal, idSampleNormal, bamNormal, baiNormal, idPatientTumor, idSampleTumor, bamTumor, baiTumor ->
+//  [idPatientNormal, idSampleNormal, bamNormal, baiNormal, idSampleTumor, bamTumor, baiTumor]
+//}
 
 // Manta and Strelka
 (bamsForManta, bamsForStrelka, bamsAll) = bamsAll.into(3)
